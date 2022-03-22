@@ -1,69 +1,89 @@
-# Conceptdiagramm
+# The Life Cycle of the Application
 
-![Conceptdiagramm](Diagramm.png)
+Application life cycle begins with the decision to create a software product and ends when it is completely taken out of service. It involves such processes as continuous: development, integration, testing, deployment and monitoring.
 
-# Decisions and Why
+**Continuous Development**
 
-- GitHub (*VCS*)
+Continuous Development includes planning and programming the application. At this stage, a programming language should be chosen for developing the application, as well as a tool for maintaining the code (also known as a Version Control System (VCS)). The programming language and VCS can be chosen depending on the preferences of the developers and team members. 
+The most popular programming languages are Python, C++, Node.js, Ruby etc. And among the most common VCSs can be distinguished Git, JIRA, Mercurial and others.
 
-GitHub will allow developers to make changes to code, to push this code to the repository and to control the versions of the app. Developers can work on different components in one repository and merge the changes to the main branch. 
+**Continuous Integration**
 
-GitHub is probably the most popular version control software development tool.
+Continuous Integration (CI) starts from the commit of the code changes to the master branch in VCS. This step triggers building of the application. However we want to make sure that our changes don't cause any new issues. 
 
-- GitHub Actions (*CI/CD*)
 
-CI stands for "Continuous Integration" and CD for "Continuous Development". This tool allows DevOps Engineers to write and run the pipeline that executes actions for the developed app. Generally, this tool is the main mechanism that automates the deployment from the repository to the server and to the enduser. 
+**Continuous Testing**
 
-GitHub Actions is simple to get started and has all necessary templates for the services we will use for the deployment.
+So the next step is running different types of tests such as unit tests, integration tests etc. on the build package. Once tests run successfully we can confirm that the build cycle is complete.
+ 
+Popular tools: Selenium, TestNG, JUnit etc.
 
-- Docker (*Containerization*)
+**Continuous Delivery/Deployment**
 
-In order to deploy the app on a server, we need a containerization tool, that will install all dependencies and pack it all together in the container. 
+At this stage our new version of the application will be released. Continuous Delivery prepares code changes to be released to production. It puts the build application in a package and makes it available for users to download and deploy in their own environments. Continuous Deployment takes the packaged application and automatically deploys it in a target environment.
+In short, CI/CD represents a process when an application code is changed and pushed to the code repository, automatically built, tested and then released and deployed in production to a target environment without requiring any manual intervention.
+Popular CI/CD tools: Gitlab CI, Jenkins, GitHub Actions etc.
 
-Docker is well known and has a solid support in the internet.
+**Continuous Monitoring**
 
-- Terraform (*Provision*)
+Another important part of the life cycle of the application is continuous monitoring. it tests the performance metrics and functionality of the application. Issues such as problems with the network, server, memory etc. are automatically resolved at this stage. And if more serious and complex errors are found, then this information will be transferred to the developer team so that they can fix them at the Continuous Development stage. So the Continuous Monitoring ensures the availability and high efficiency of the application.
+Popular tools: Prometheus, Lansweeper, Nagios etc.
 
-Terraform is a tool for infrastracture provisioning and is widely used for its declarative nature. In other words, it provides the environment setup for the deployed app. The declarative nature means, that DevOps engineer specifies the end result and terraform will perform all the steps automatically, rather then write each step and how to execute these steps manually. 
+**Resume**
 
-Terraform is good for splitting up the environments, i.e. staging and production environments.
+Deployment is a huge and important part of the application lifecycle. It can be done manually but then it is a very tedious task which can cause many errors and most likely we would constantly postpone it. But by doing deployment as infrequently as possible we would lose a great opportunity to gather feedback on each small or big change of code and release new versions more often. 
 
-- Amazon Web Services (*Cloud Provider*)
 
-Cloud provider contains the operation system with the deployed app and installed Container Orchestration tool. Generally speaking, it is the server that will be reached by the users of the application. Cloud providers have scalable infrastructure and good uptime / stability. 
+# Automation Steps
 
-Amazon Web Services (AWS) has a huge amount of datacenters. Services available on AWS is extremely broad and wide. These various services are really well integrated, and they provide a very comprehensive cloud service.
+Pushing the changes in development environment to the master branch will cause the next automation steps:
 
-- Kubernetes (*Container Orchestration*)
+* app building
+*containerization of the app itself and databank
+* testing
+* (after successful testing) deployment on Google Cloud 
+* provisioning of infrastructure
+* container orchestration 
+* app running on the Google Cloud
+* monitoring of the app performance
 
-Container Orchestration tool balances the load on the servers of the deployed app. It "orchestrates" the pods (wraps around the container, could be 1 or more containers in one pod) to equally divide the load of the microservices on the server.
+The automation cycle will be repeated every time the changes in code will be done and pushed to the master branch.
 
-Kubernetes offers portability, and faster, simpler deployment times. It is a stable, reliable, easy-to-use solution. Simply, it's the best way to deploy containers.
 
-- Prometheus (*Monitoring*)
+# Architecture of the Infrastructure
 
-In order to look out for the applications health and to detect errors we need the monitoring tool. It checks memory usage, speed and other essential app components and notifies the administrator about vulnerabilities.
+![Diagram](diagram.png)
 
-Prometheus contributes to the DevOps system by monitoring cloud-native applications and infrastructure, and by watching over hundreds of microservices. Prometheus monitoring eliminates the amount of alerts in a system, only sending alerts when major issues need to be solved.
+**Version Control System: Git**
+Git allows developers to push changes, merge branches and control different versions of the code easily. Among other advantages of Git over other VCSs are high speed of work, data assurance and working on multiple independent branches at the same time.
 
-# Infrastructure archirecture
+**CI/CD: GitHub Actions**
+GitHub Actions is a software that accompanies an application from building stage to deployment to the server and to the end user. GitHub Actions is one of the most widely used CI/CD tools and therefore it will be useful to learn how to work with it.
 
-There are **2 containers** running on the **3 Ubuntu Server** machines in aws. 
+**Container: Docker**
+Docker allows the deployment of applications on the server. Containers hold all packages and dependencies which will be packed and installed on the server. 
 
-- **first container** is for the node application itself
-- **second container** is for the mongoDB database
-- **first aws server** is for the Master node of Kubernetes
-- **second and third aws servers** are for the Kubernetes workers
+**Testing: Selenium**
+Any changes made in the code must be reviewed and tested before the new version of the application is deployed. Selenium is the automated testing framework. Selenium test scripts check out the code changes whether they cause any errors and make sure that the application works fine. 
+ 
+**Provisioning: Terraform**
+Infrastructure as code (IaC) allows provisioning to be automated so that DevOps developers don’t have to  provision and manage the infrastructure manually. Automated provisioning means that configuration files are created, which contain the infrastructure specifications of the application. Thus, provisioning and managing of infrastructure is done automatically through the code.
 
-# Automation steps
+**Container Orchestration: Kubernetes**
+Container orchestration can be used in any environment where containers are used during application deployment. It usually takes a lot of time and effort to manually set configurations for a single container. Container orchestration automates this process for all containers.
 
-After merge request or push to the master branch in the app repository following automation steps are taking place:
+**Cloud Server: Google Cloud**
+A cloud server is a powerful virtual machine that runs applications and serves as a repository for processed information. An application must be located on the server so end users can reach and use it.  
 
-- build the app with makefile into one artefact
-- containerize the app and the database
-- provide infrastructure with terraform (2 environments - staging and production with Kubernetes and docker installed)
-- deploy the app to the aws staging servers that were provided by the terraform
-- test the environment
-- deploy the tested app to the production environment (no downtime)
-- monitor the servers
-- repeat the process
+**Monitoring: Prometheus**
+The application must be constantly monitored in order to record and use real-time metrics. Access to the metrics allows DevOps developers to detect any problems during any stage of the DevOps pipeline. Thus, transparency and visibility of all actions and their impact on the operation of the application will be created. Thanks to monitoring, in case of any problems, appropriate measures will be taken in time to prevent any serious consequences and improve the performance of the application.
+
+
+# Resources:
+
+* DevOps Lectures Wintersemester 2021/2022
+* https://www.redhat.com/en/topics/containers/what-is-container-orchestration 
+* https://www.redhat.com/en/topics/automation/what-is-provisioning
+* https://jelvix.medium.com/application-development-lifecycle-is-a-period-of-time-that-begins-with-the-decision-to-create-a-dccf60b78fb0
+* https://www.edureka.co/blog/devops-lifecycle/#whatisdevopslifecycle
+* https://www.browserstack.com/guide/continuous-monitoring-in-devops 
